@@ -1,0 +1,462 @@
+[
+  {
+    "best_kind": "activation",
+    "best_utility": 0.04999999999999999,
+    "best_cost": 2.0,
+    "mean_utility_by_kind": {
+      "prompt": -0.050000000000000024,
+      "activation": -0.01944444444444447,
+      "lora": -0.08333333333333336
+    },
+    "max_utility_by_kind": {
+      "prompt": 0.025000000000000022,
+      "activation": 0.04999999999999999,
+      "lora": 0.04999999999999999
+    },
+    "exhaustive_cost": 38.0,
+    "state_id": "train-007",
+    "depth": 1,
+    "base_task": 0.3,
+    "state_seconds": 344.8444309234619
+  },
+  {
+    "best_kind": "activation",
+    "best_utility": 0.19999999999999996,
+    "best_cost": 2.0,
+    "mean_utility_by_kind": {
+      "prompt": 0.0222222222222222,
+      "activation": 0.09166666666666663,
+      "lora": -0.05555555555555556
+    },
+    "max_utility_by_kind": {
+      "prompt": 0.125,
+      "activation": 0.19999999999999996,
+      "lora": 0.06666666666666671
+    },
+    "exhaustive_cost": 33.0,
+    "state_id": "train-008",
+    "depth": 1,
+    "base_task": 0.525,
+    "state_seconds": 249.9455602169037
+  },
+  {
+    "best_kind": "activation",
+    "best_utility": 0.15000000000000002,
+    "best_cost": 2.0,
+    "mean_utility_by_kind": {
+      "prompt": 0.0,
+      "activation": 0.050000000000000024,
+      "lora": -0.05833333333333332
+    },
+    "max_utility_by_kind": {
+      "prompt": 0.0,
+      "activation": 0.15000000000000002,
+      "lora": 0.025000000000000022
+    },
+    "exhaustive_cost": 23.0,
+    "state_id": "train-009",
+    "depth": 2,
+    "base_task": 0.35,
+    "state_seconds": 256.13238620758057
+  },
+  {
+    "best_kind": "prompt",
+    "best_utility": -0.016666666666666607,
+    "best_cost": 1.0,
+    "mean_utility_by_kind": {
+      "prompt": -0.08333333333333331,
+      "activation": -0.10555555555555557,
+      "lora": -0.07500000000000001
+    },
+    "max_utility_by_kind": {
+      "prompt": -0.016666666666666607,
+      "activation": -0.050000000000000044,
+      "lora": -0.025000000000000022
+    },
+    "exhaustive_cost": 49.0,
+    "state_id": "train-010",
+    "depth": 0,
+    "base_task": 0.525,
+    "state_seconds": 209.48965692520142
+  },
+  {
+    "best_kind": "lora",
+    "best_utility": 0.0,
+    "best_cost": 5.0,
+    "mean_utility_by_kind": {
+      "prompt": -0.10277777777777775,
+      "activation": -0.19999999999999993,
+      "lora": -0.14999999999999994
+    },
+    "max_utility_by_kind": {
+      "prompt": -0.07499999999999996,
+      "activation": -0.02499999999999991,
+      "lora": 0.0
+    },
+    "exhaustive_cost": 39.66666666666667,
+    "state_id": "train-011",
+    "depth": 0,
+    "base_task": 0.575,
+    "state_seconds": 223.41293692588806
+  },
+  {
+    "best_kind": "prompt",
+    "best_utility": 0.09999999999999998,
+    "best_cost": 1.0,
+    "mean_utility_by_kind": {
+      "prompt": -0.03611111111111113,
+      "activation": -0.04722222222222224,
+      "lora": -0.1888888888888889
+    },
+    "max_utility_by_kind": {
+      "prompt": 0.09999999999999998,
+      "activation": 0.0,
+      "lora": -0.025000000000000022
+    },
+    "exhaustive_cost": 35.66666666666667,
+    "state_id": "train-012",
+    "depth": 1,
+    "base_task": 0.6,
+    "state_seconds": 252.27541494369507
+  },
+  {
+    "best_kind": "prompt",
+    "best_utility": 0.0,
+    "best_cost": 1.0,
+    "mean_utility_by_kind": {
+      "prompt": -0.10555555555555557,
+      "activation": -0.2388888888888889,
+      "lora": -0.32222222222222224
+    },
+    "max_utility_by_kind": {
+      "prompt": 0.0,
+      "activation": -0.016666666666666607,
+      "lora": -0.025000000000000022
+    },
+    "exhaustive_cost": 40.16666666666667,
+    "state_id": "train-013",
+    "depth": 1,
+    "base_task": 0.525,
+    "state_seconds": 278.33152890205383
+  },
+  {
+    "best_kind": "activation",
+    "best_utility": 0.22500000000000003,
+    "best_cost": 2.0,
+    "mean_utility_by_kind": {
+      "prompt": 0.02777777777777779,
+      "activation": 0.13611111111111113,
+      "lora": -0.26111111111111107
+    },
+    "max_utility_by_kind": {
+      "prompt": 0.175,
+      "activation": 0.22500000000000003,
+      "lora": 0.175
+    },
+    "exhaustive_cost": 35.16666666666667,
+    "state_id": "train-014",
+    "depth": 2,
+    "base_task": 0.425,
+    "state_seconds": 240.5766201019287
+  },
+  {
+    "best_kind": "prompt",
+    "best_utility": 0.08333333333333343,
+    "best_cost": 1.0,
+    "mean_utility_by_kind": {
+      "prompt": -0.04444444444444443,
+      "activation": -0.21666666666666665,
+      "lora": 0.09722222222222222
+    },
+    "max_utility_by_kind": {
+      "prompt": 0.08333333333333343,
+      "activation": -0.04999999999999999,
+      "lora": 0.13333333333333336
+    },
+    "exhaustive_cost": 49.0,
+    "state_id": "train-015",
+    "depth": 0,
+    "base_task": 0.425,
+    "state_seconds": 244.9677450656891
+  },
+  {
+    "best_kind": "prompt",
+    "best_utility": 0.04999999999999993,
+    "best_cost": 1.0,
+    "mean_utility_by_kind": {
+      "prompt": -0.10277777777777779,
+      "activation": -0.06666666666666665,
+      "lora": -0.15277777777777773
+    },
+    "max_utility_by_kind": {
+      "prompt": 0.04999999999999993,
+      "activation": -0.025000000000000022,
+      "lora": -0.04166666666666663
+    },
+    "exhaustive_cost": 22.5,
+    "state_id": "train-016",
+    "depth": 0,
+    "base_task": 0.525,
+    "state_seconds": 216.47896099090576
+  },
+  {
+    "best_kind": "prompt",
+    "best_utility": -0.06666666666666665,
+    "best_cost": 1.0,
+    "mean_utility_by_kind": {
+      "prompt": -0.2472222222222222,
+      "activation": -0.15,
+      "lora": -0.1555555555555555
+    },
+    "max_utility_by_kind": {
+      "prompt": -0.06666666666666665,
+      "activation": -0.07500000000000001,
+      "lora": -0.13333333333333325
+    },
+    "exhaustive_cost": 31.5,
+    "state_id": "train-017",
+    "depth": 1,
+    "base_task": 0.5,
+    "state_seconds": 1865.965036869049
+  },
+  {
+    "best_kind": "activation",
+    "best_utility": 0.35,
+    "best_cost": 2.0,
+    "mean_utility_by_kind": {
+      "prompt": 0.005555555555555564,
+      "activation": 0.16666666666666666,
+      "lora": 0.19166666666666665
+    },
+    "max_utility_by_kind": {
+      "prompt": 0.07500000000000001,
+      "activation": 0.35,
+      "lora": 0.275
+    },
+    "exhaustive_cost": 49.0,
+    "state_id": "train-018",
+    "depth": 1,
+    "base_task": 0.125,
+    "state_seconds": 203.16720604896545
+  },
+  {
+    "best_kind": "prompt",
+    "best_utility": 0.0,
+    "best_cost": 1.0,
+    "mean_utility_by_kind": {
+      "prompt": -0.04999999999999997,
+      "activation": -0.16666666666666666,
+      "lora": -0.20277777777777775
+    },
+    "max_utility_by_kind": {
+      "prompt": 0.0,
+      "activation": 0.0,
+      "lora": 0.0
+    },
+    "exhaustive_cost": 33.0,
+    "state_id": "train-019",
+    "depth": 2,
+    "base_task": 0.575,
+    "state_seconds": 232.0203561782837
+  },
+  {
+    "best_kind": "prompt",
+    "best_utility": -0.050000000000000044,
+    "best_cost": 1.0,
+    "mean_utility_by_kind": {
+      "prompt": -0.16111111111111118,
+      "activation": -0.36111111111111116,
+      "lora": -0.12500000000000003
+    },
+    "max_utility_by_kind": {
+      "prompt": -0.050000000000000044,
+      "activation": -0.275,
+      "lora": -0.050000000000000044
+    },
+    "exhaustive_cost": 44.66666666666667,
+    "state_id": "train-020",
+    "depth": 0,
+    "base_task": 0.625,
+    "state_seconds": 186.32708287239075
+  },
+  {
+    "best_kind": "prompt",
+    "best_utility": 0.07500000000000001,
+    "best_cost": 1.0,
+    "mean_utility_by_kind": {
+      "prompt": 0.05555555555555556,
+      "activation": -0.14166666666666666,
+      "lora": -0.06666666666666667
+    },
+    "max_utility_by_kind": {
+      "prompt": 0.07500000000000001,
+      "activation": 0.0,
+      "lora": 0.04999999999999999
+    },
+    "exhaustive_cost": 34.0,
+    "state_id": "train-021",
+    "depth": 0,
+    "base_task": 0.425,
+    "state_seconds": 239.62440991401672
+  },
+  {
+    "best_kind": "prompt",
+    "best_utility": 0.09999999999999998,
+    "best_cost": 1.0,
+    "mean_utility_by_kind": {
+      "prompt": 0.024999999999999967,
+      "activation": -0.041666666666666685,
+      "lora": -0.07500000000000001
+    },
+    "max_utility_by_kind": {
+      "prompt": 0.09999999999999998,
+      "activation": 0.024999999999999967,
+      "lora": 0.0
+    },
+    "exhaustive_cost": 32.5,
+    "state_id": "train-022",
+    "depth": 1,
+    "base_task": 0.4,
+    "state_seconds": 219.24882817268372
+  },
+  {
+    "best_kind": "activation",
+    "best_utility": 0.125,
+    "best_cost": 2.0,
+    "mean_utility_by_kind": {
+      "prompt": -0.1861111111111111,
+      "activation": 0.036111111111111115,
+      "lora": -0.26944444444444443
+    },
+    "max_utility_by_kind": {
+      "prompt": -0.025000000000000022,
+      "activation": 0.125,
+      "lora": -0.1416666666666666
+    },
+    "exhaustive_cost": 49.0,
+    "state_id": "train-023",
+    "depth": 1,
+    "base_task": 0.5,
+    "state_seconds": 247.32272601127625
+  },
+  {
+    "best_kind": "lora",
+    "best_utility": -0.025000000000000022,
+    "best_cost": 10.0,
+    "mean_utility_by_kind": {
+      "prompt": -0.15277777777777782,
+      "activation": -0.19166666666666665,
+      "lora": -0.07500000000000001
+    },
+    "max_utility_by_kind": {
+      "prompt": -0.08333333333333337,
+      "activation": -0.125,
+      "lora": -0.025000000000000022
+    },
+    "exhaustive_cost": 38.0,
+    "state_id": "train-024",
+    "depth": 2,
+    "base_task": 0.325,
+    "state_seconds": 271.3778100013733
+  },
+  {
+    "best_kind": "activation",
+    "best_utility": 0.125,
+    "best_cost": 2.0,
+    "mean_utility_by_kind": {
+      "prompt": -0.10277777777777776,
+      "activation": 0.03611111111111115,
+      "lora": -0.2222222222222222
+    },
+    "max_utility_by_kind": {
+      "prompt": 0.05833333333333335,
+      "activation": 0.125,
+      "lora": 0.0
+    },
+    "exhaustive_cost": 45.16666666666667,
+    "state_id": "train-025",
+    "depth": 0,
+    "base_task": 0.475,
+    "state_seconds": 234.90081405639648
+  },
+  {
+    "best_kind": "lora",
+    "best_utility": 0.0,
+    "best_cost": 9.0,
+    "mean_utility_by_kind": {
+      "prompt": -0.125,
+      "activation": -0.13333333333333333,
+      "lora": -0.041666666666666664
+    },
+    "max_utility_by_kind": {
+      "prompt": -0.04999999999999999,
+      "activation": -0.07500000000000001,
+      "lora": 0.0
+    },
+    "exhaustive_cost": 39.16666666666667,
+    "state_id": "train-026",
+    "depth": 0,
+    "base_task": 0.45,
+    "state_seconds": 221.0041627883911
+  },
+  {
+    "best_kind": "prompt",
+    "best_utility": 0.03333333333333344,
+    "best_cost": 1.0,
+    "mean_utility_by_kind": {
+      "prompt": -0.09999999999999992,
+      "activation": -0.04999999999999993,
+      "lora": -0.24166666666666656
+    },
+    "max_utility_by_kind": {
+      "prompt": 0.03333333333333344,
+      "activation": 0.008333333333333415,
+      "lora": -0.09166666666666656
+    },
+    "exhaustive_cost": 39.16666666666667,
+    "state_id": "train-027",
+    "depth": 1,
+    "base_task": 0.575,
+    "state_seconds": 242.70325994491577
+  },
+  {
+    "best_kind": "lora",
+    "best_utility": 0.0,
+    "best_cost": 9.0,
+    "mean_utility_by_kind": {
+      "prompt": -0.2555555555555555,
+      "activation": -0.08333333333333333,
+      "lora": -0.16666666666666663
+    },
+    "max_utility_by_kind": {
+      "prompt": -0.19999999999999996,
+      "activation": -0.025000000000000022,
+      "lora": 0.0
+    },
+    "exhaustive_cost": 49.66666666666667,
+    "state_id": "train-028",
+    "depth": 1,
+    "base_task": 0.6,
+    "state_seconds": 246.7239270210266
+  },
+  {
+    "best_kind": "lora",
+    "best_utility": 0.0,
+    "best_cost": 5.0,
+    "mean_utility_by_kind": {
+      "prompt": -0.13611111111111115,
+      "activation": -0.14166666666666666,
+      "lora": -0.2638888888888889
+    },
+    "max_utility_by_kind": {
+      "prompt": -0.06666666666666676,
+      "activation": -0.09999999999999998,
+      "lora": 0.0
+    },
+    "exhaustive_cost": 33.0,
+    "state_id": "train-029",
+    "depth": 2,
+    "base_task": 0.5,
+    "state_seconds": 290.97497391700745
+  }
+]

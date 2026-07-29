@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data State — Heterogeneous Credit Assignment</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --line:#262b36; --ink:#e7eaf0; --mut:#9aa4b2;
+    --good:#3fb950; --warn:#d9a441; --bad:#f0603f; --accent:#6ea8fe;
+    --mono:"SF Mono",ui-monospace,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;}
+  .wrap{max-width:920px;margin:0 auto;padding:48px 24px 80px}
+  header{border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:32px}
+  h1{font-size:24px;margin:0 0 6px;letter-spacing:-.2px}
+  .sub{color:var(--mut);font-size:13.5px}
+  .status{display:inline-block;margin-top:14px;padding:4px 11px;border-radius:6px;
+    background:rgba(63,185,80,.12);color:var(--good);font-size:12.5px;font-weight:600;
+    border:1px solid rgba(63,185,80,.3)}
+  h2{font-size:15px;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);
+    margin:40px 0 14px;font-weight:600}
+  p{color:#cdd3dd}
+  table{width:100%;border-collapse:collapse;margin:8px 0;font-size:13.5px}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line)}
+  th{color:var(--mut);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+  td.num,th.num{text-align:right;font-family:var(--mono);font-size:12.5px}
+  tbody tr:hover{background:rgba(110,168,254,.05)}
+  .mono{font-family:var(--mono)}
+  .pill{padding:2px 8px;border-radius:20px;font-size:11.5px;font-weight:600;white-space:nowrap}
+  .p-good{background:rgba(63,185,80,.14);color:var(--good)}
+  .p-warn{background:rgba(217,164,65,.15);color:var(--warn)}
+  .p-bad{background:rgba(240,96,63,.15);color:var(--bad)}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:6px 0}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px}
+  .card .k{font-family:var(--mono);font-size:23px;font-weight:600}
+  .card .l{color:var(--mut);font-size:12px;margin-top:4px}
+  .note{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--accent);
+    border-radius:8px;padding:14px 16px;margin:14px 0;font-size:13.5px;color:#cdd3dd}
+  .fam{font-family:var(--mono);font-size:11px;color:var(--mut)}
+  code{font-family:var(--mono);background:#1e222b;padding:1px 5px;border-radius:4px;font-size:12.5px}
+  ul{padding-left:18px} li{margin:5px 0;color:#cdd3dd}
+  footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);
+    color:var(--mut);font-size:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Data State — Heterogeneous Credit Assignment</h1>
+  <div class="sub">Milestone M2 · multi-task data generation · 2026-07-27</div>
+  <span class="status">● Registry built &amp; probed · collection pending</span>
+</header>
+
+<p>Two deliverables are in place: a <strong>family-tagged task registry</strong> (the inputs
+for collection) and the <strong>baseline intervention corpus</strong> from M1. Every task is
+single-token-label classification — the constraint imposed by the single-forward-pass
+evaluator. Base accuracy for each task has been measured on the <span class="mono">Qwen2.5-3B</span>
+model to confirm each sits in a usable signal band before spending collection budget.</p>
+
+<h2>At a glance</h2>
+<div class="grid">
+  <div class="card"><div class="k">6</div><div class="l">target tasks (2 families)</div></div>
+  <div class="card"><div class="k">270</div><div class="l">records collected (M1)</div></div>
+  <div class="card"><div class="k">30</div><div class="l">states collected</div></div>
+  <div class="card"><div class="k">1</div><div class="l">task dropped (at chance)</div></div>
+</div>
+
+<h2>Task registry — measured base accuracy</h2>
+<p>Probed at N=200 per task. <span class="mono">±noise</span> is the 2σ binomial band at chance;
+<span class="mono">margin</span> is the low-variance gold−competitor logit signal. Verdict reflects
+headroom for interventions, not just raw accuracy.</p>
+<table>
+  <thead><tr>
+    <th>Task</th><th>Family</th><th>Labels</th>
+    <th class="num">acc</th><th class="num">chance</th><th class="num">margin</th><th>Verdict</th>
+  </tr></thead>
+  <tbody>
+    <tr><td class="mono">arithmetic_tf</td><td class="fam">synthetic</td><td>yes / no</td>
+      <td class="num">0.595</td><td class="num">0.500</td><td class="num">+1.02</td>
+      <td><span class="pill p-good">healthy</span> <span class="fam">thin but systematic</span></td></tr>
+    <tr><td class="mono">grammar</td><td class="fam">synthetic</td><td>yes / no</td>
+      <td class="num">0.620</td><td class="num">0.500</td><td class="num">+2.61</td>
+      <td><span class="pill p-good">healthy</span></td></tr>
+    <tr><td class="mono">code_output</td><td class="fam">synthetic</td><td>yes / no</td>
+      <td class="num">0.875</td><td class="num">0.500</td><td class="num">+2.48</td>
+      <td><span class="pill p-good">healthy</span> <span class="fam">tunable via level</span></td></tr>
+    <tr><td class="mono">sst2</td><td class="fam">benchmark</td><td>neg / pos</td>
+      <td class="num">0.895</td><td class="num">0.500</td><td class="num">+5.62</td>
+      <td><span class="pill p-warn">near ceiling</span></td></tr>
+    <tr><td class="mono">snli</td><td class="fam">benchmark</td><td>ent / neu / con</td>
+      <td class="num">0.815</td><td class="num">0.333</td><td class="num">+5.03</td>
+      <td><span class="pill p-good">healthy</span></td></tr>
+    <tr><td class="mono">emotion</td><td class="fam">benchmark</td><td>6-way</td>
+      <td class="num">0.520</td><td class="num">0.167</td><td class="num">−0.12</td>
+      <td><span class="pill p-good">healthy</span> <span class="fam">M1 baseline task</span></td></tr>
+    <tr><td class="mono">ag_news</td><td class="fam">retention</td><td>4-way</td>
+      <td class="num">0.840</td><td class="num">0.250</td><td class="num">+4.74</td>
+      <td><span class="pill p-good">healthy</span> <span class="fam">capability probe</span></td></tr>
+  </tbody>
+</table>
+<div class="note"><strong>code_defect dropped.</strong> The CodeXGLUE/Devign benchmark measured
+at <span class="mono">acc 0.470 (below chance), margin −0.09</span> — the 3B model has no signal on
+C-vulnerability detection, so its failures would be coin-flips. Replaced by the autocreated
+<span class="mono">code_output</span> task (verify a Python snippet's printed output; exact ground
+truth, difficulty tunable via <code>level</code>), which sits at a healthy 0.875 with real margin.</div>
+
+<h2>Collected intervention corpus (M1 baseline)</h2>
+<p>The counterfactual dataset at <span class="mono">data/intervention_dataset.jsonl</span> is still
+the M1 baseline: one task pair, <span class="mono">emotion → ag_news</span>. The five new tasks are
+registered but <strong>not yet collected</strong>.</p>
+<table>
+  <thead><tr><th>Dimension</th><th>Current</th><th>M2 target</th></tr></thead>
+  <tbody>
+    <tr><td>Records</td><td class="mono">270</td><td class="mono">~5k–15k</td></tr>
+    <tr><td>States</td><td class="mono">30</td><td class="mono">150–300 / task</td></tr>
+    <tr><td>Task pairs</td><td class="mono">1 (emotion)</td><td class="mono">6 targets</td></tr>
+    <tr><td>Per-kind split</td><td class="mono">prompt 90 · activation 90 · lora 90</td><td class="mono">balanced</td></tr>
+    <tr><td>Stack depth</td><td class="mono">0:108 · 1:108 · 2:54</td><td class="mono">0–4</td></tr>
+  </tbody>
+</table>
+
+<h2>Signal-vs-noise audit (on collected data)</h2>
+<p>The existing records are healthy — emotion measures 0.52 vs 0.167 chance, so the target signal
+is real, not sampling jitter. Two noise-limited regions to manage as collection scales:</p>
+<ul>
+  <li><strong>Utility spread is 6.5× the noise floor</strong> (<span class="mono">std 0.162</span> vs
+    <span class="mono">1-label = 0.025</span>) — the variation across candidates is genuine signal.</li>
+  <li><strong>~43% of candidate effects move ≤2 labels</strong>, i.e. sit near the floor. Ranking
+    within this near-zero group is noise-limited and caps pairwise/Spearman accuracy.</li>
+  <li><strong>Retention is the noisiest component</strong> — 54% of retention deltas are within one
+    label (N=24 eval batch). It feeds the utility penalty, so it injects noise into the target.</li>
+  <li><strong>Mitigation is already in the data:</strong> <span class="mono">margin_improvement</span>
+    correlates 0.79 with accuracy and is lower-variance — regress the critic on it, not raw acc.</li>
+  <li><strong>68% of candidates are net-harmful</strong> — much of the critic's value is declining
+    damage, consistent with the M1 finding.</li>
+</ul>
+
+<h2>Next steps</h2>
+<ul>
+  <li>Wire <span class="mono">collect_oracle_data.py</span> to iterate the registry (currently
+    hard-wired to the emotion/ag_news pair).</li>
+  <li>Run collection across the 6 targets; prioritize depth-3/4 states for interaction coverage (P5).</li>
+  <li>Consider larger eval batches for the binary tasks (max binomial noise at p≈0.5) or lean on margin.</li>
+</ul>
+
+<footer>
+  Model: Qwen2.5-3B-Instruct · MPS · probe N=200 · env: <span class="mono">.venv</span> (Python 3.11)
+  — the system Python 3.9 deadlocks on model load and must not be used.
+</footer>
+</div>
+</body>
+</html>

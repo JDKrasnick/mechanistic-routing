@@ -1,0 +1,590 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Heterogeneous Credit Assignment — Project Dossier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#07080a;
+  --ink-2:#0d0f13;
+  --panel:#111419;
+  --line:#232830;
+  --line-2:#2f3641;
+  --bone:#e6e1d7;
+  --bone-dim:#9aa0a8;
+  --bone-faint:#6b7178;
+  --amber:#f2a33c;
+  --signal:#6ee7a8;
+  --alert:#ff6b5a;
+  --violet:#a99bf0;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --serif:"Instrument Serif",Iowan Old Style,Georgia,serif;
+  --body:"Newsreader",Charter,Georgia,serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--ink);color:var(--bone);
+  font-family:var(--body);font-size:17px;line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+/* grain */
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:99;opacity:.24;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(900px 500px at 12% -8%, rgba(242,163,60,.10), transparent 70%),
+    radial-gradient(700px 500px at 88% 4%, rgba(110,231,168,.06), transparent 70%);
+}
+.wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:0 32px 140px}
+
+/* ---------- masthead ---------- */
+header{padding:72px 0 40px;border-bottom:1px solid var(--line)}
+.kicker{
+  font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--amber);display:flex;gap:14px;align-items:center;margin-bottom:26px;
+}
+.kicker::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line-2),transparent)}
+h1{
+  font-family:var(--serif);font-weight:400;font-size:clamp(42px,6.4vw,78px);
+  line-height:1.02;letter-spacing:-.015em;margin:0 0 8px;
+}
+h1 em{font-style:italic;color:var(--amber)}
+.sub{
+  font-family:var(--mono);font-size:12.5px;color:var(--bone-dim);letter-spacing:.04em;
+  margin-top:20px;
+}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+.badge{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  padding:6px 11px;border:1px solid var(--line-2);border-radius:2px;color:var(--bone-dim);
+  background:var(--ink-2);
+}
+.badge.ok{color:var(--signal);border-color:rgba(110,231,168,.32)}
+.badge.run{color:var(--amber);border-color:rgba(242,163,60,.34)}
+.badge.wait{color:var(--bone-faint)}
+.badge b{font-weight:600}
+
+/* ---------- sections ---------- */
+section{padding:58px 0;border-bottom:1px solid var(--line)}
+.snum{
+  font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--amber);
+  margin-bottom:14px;
+}
+h2{
+  font-family:var(--serif);font-weight:400;font-size:clamp(28px,3.4vw,40px);
+  letter-spacing:-.01em;margin:0 0 6px;line-height:1.1;
+}
+.lede{color:var(--bone-dim);max-width:66ch;margin:14px 0 0;font-size:17.5px}
+p{max-width:70ch}
+a{color:var(--amber);text-decoration:none;border-bottom:1px solid rgba(242,163,60,.3)}
+
+/* ---------- claim block ---------- */
+.claim{
+  margin:34px 0 0;padding:30px 34px;background:var(--ink-2);
+  border-left:2px solid var(--amber);position:relative;
+}
+.claim p{font-family:var(--serif);font-size:24px;line-height:1.45;margin:0;max-width:none}
+.claim .tag{
+  position:absolute;top:-9px;left:30px;background:var(--ink);padding:0 10px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);
+}
+
+.pred{margin-top:34px;display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
+.pred div{background:var(--ink-2);padding:20px 22px}
+.pred .h{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--bone-faint);margin-bottom:8px;
+}
+.pred .b{font-size:16px;line-height:1.55}
+.pred .b b{color:var(--signal);font-weight:500}
+.pred .b i{color:var(--alert);font-style:normal}
+@media(min-width:760px){.pred{grid-template-columns:1fr 1fr}}
+
+/* ---------- pipeline ---------- */
+.flow{display:flex;flex-wrap:wrap;gap:10px;margin-top:34px;align-items:stretch}
+.stage{
+  flex:1 1 150px;background:var(--panel);border:1px solid var(--line-2);
+  padding:16px 15px;position:relative;border-radius:2px;
+}
+.stage .n{font-family:var(--mono);font-size:10px;color:var(--amber);letter-spacing:.16em}
+.stage .t{font-family:var(--mono);font-size:12.5px;font-weight:600;margin:7px 0 5px;letter-spacing:.01em}
+.stage .d{font-size:13.5px;color:var(--bone-dim);line-height:1.45}
+.stage.now{border-color:rgba(242,163,60,.55);box-shadow:0 0 0 1px rgba(242,163,60,.18), 0 0 30px -12px rgba(242,163,60,.5)}
+.stage.done .n{color:var(--signal)}
+
+/* ---------- tables ---------- */
+table{width:100%;border-collapse:collapse;margin-top:26px;font-family:var(--mono);font-size:13px}
+caption{
+  text-align:left;font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--bone-faint);padding-bottom:12px;
+}
+th{
+  text-align:left;font-weight:500;color:var(--bone-faint);font-size:10.5px;
+  letter-spacing:.14em;text-transform:uppercase;padding:9px 14px 9px 0;
+  border-bottom:1px solid var(--line-2);white-space:nowrap;
+}
+td{padding:10px 14px 10px 0;border-bottom:1px solid var(--line);vertical-align:top;
+   font-variant-numeric:tabular-nums}
+tr:hover td{background:rgba(255,255,255,.018)}
+td.k{color:var(--bone)}
+td.v{color:var(--amber)}
+.num-pos{color:var(--signal)}
+.num-neg{color:var(--alert)}
+.note{color:var(--bone-faint);font-family:var(--body);font-size:14.5px}
+
+.cols{display:grid;gap:34px;margin-top:34px}
+@media(min-width:820px){.cols.two{grid-template-columns:1fr 1fr}}
+
+/* ---------- callouts ---------- */
+.call{
+  margin-top:30px;padding:20px 24px;border:1px solid var(--line-2);
+  background:var(--ink-2);border-radius:2px;
+}
+.call .h{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;
+  margin-bottom:10px;
+}
+.call.risk{border-left:2px solid var(--alert)}
+.call.risk .h{color:var(--alert)}
+.call.good{border-left:2px solid var(--signal)}
+.call.good .h{color:var(--signal)}
+.call.info{border-left:2px solid var(--violet)}
+.call.info .h{color:var(--violet)}
+.call p{margin:0;font-size:15.5px;line-height:1.6}
+.call p + p{margin-top:11px}
+code{
+  font-family:var(--mono);font-size:.87em;background:rgba(255,255,255,.05);
+  padding:2px 5px;border-radius:2px;color:var(--bone)
+}
+
+ul{padding-left:20px;max-width:70ch}
+li{margin:9px 0}
+li::marker{color:var(--amber)}
+
+.foot{padding:44px 0 0;font-family:var(--mono);font-size:11.5px;color:var(--bone-faint);
+      letter-spacing:.05em;line-height:1.9}
+
+/* ---------- entrance ---------- */
+@media (prefers-reduced-motion:no-preference){
+  .rise{opacity:0;transform:translateY(14px);animation:rise .78s cubic-bezier(.2,.7,.3,1) forwards}
+  @keyframes rise{to{opacity:1;transform:none}}
+  header .kicker{animation-delay:.02s}
+  header h1{animation-delay:.10s}
+  header .sub{animation-delay:.20s}
+  header .badges{animation-delay:.28s}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker rise">Project Dossier · Mechanistic Routing</div>
+  <h1 class="rise">Heterogeneous<br>Credit <em>Assignment</em></h1>
+  <div class="sub rise">
+    A candidate-level counterfactual critic for budget-constrained adaptation<br>
+    Qwen2.5-3B-Instruct · bfloat16 · Apple M4 / MPS · eager attention
+  </div>
+  <div class="badges rise">
+    <span class="badge ok"><b>✓</b> apply/revert bit-exact</span>
+    <span class="badge ok"><b>✓</b> milestone 1 loop</span>
+    <span class="badge ok"><b>✓</b> magnitudes calibrated</span>
+    <span class="badge run"><b>▶</b> collecting counterfactuals</span>
+    <span class="badge wait">◦ critic training</span>
+    <span class="badge wait">◦ routing harness</span>
+  </div>
+</header>
+
+<section>
+  <div class="snum">00 — HYPOTHESIS</div>
+  <h2>What is actually being tested</h2>
+
+  <div class="claim">
+    <span class="tag">Project claim</span>
+    <p>A candidate-level counterfactual critic can predict the held-out marginal
+    utility, cost, and interaction effects of proposed textual, activation-level,
+    and parameter-level interventions — enabling budget-constrained heterogeneous
+    adaptation <em>without</em> exhaustively executing every candidate update.</p>
+  </div>
+
+  <p class="lede">That claim only means something if it can fail. The baseline is
+  built so that three specific things could go wrong, and each is measured
+  directly rather than asserted.</p>
+
+  <div class="pred">
+    <div>
+      <div class="h">Prediction 1 · Heterogeneity</div>
+      <div class="b">Different states are best served by different intervention
+      <i>types</i>. If one type always wins, routing is unnecessary and the
+      premise collapses. Measured as <b>oracle winner share by type</b>.</div>
+    </div>
+    <div>
+      <div class="h">Prediction 2 · Learnability</div>
+      <div class="b">Utility is predictable from pre-execution features alone.
+      The critic must beat a <i>static type prior</i> — not just random — on
+      within-state <b>pairwise ranking accuracy</b>.</div>
+    </div>
+    <div>
+      <div class="h">Prediction 3 · Efficiency</div>
+      <div class="b">Critic routing approaches oracle utility at a fraction of
+      execution cost. Measured as <b>task gain vs exploration cost</b>, with the
+      oracle paying for all 9 candidates and the critic for 1.</div>
+    </div>
+    <div>
+      <div class="h">Prediction 4 · Retention</div>
+      <div class="b">Cheap-but-damaging updates are avoidable. Utility penalizes
+      retention loss, so a candidate that wins on task accuracy while degrading
+      general capability must <i>not</i> be selected.</div>
+    </div>
+  </div>
+
+  <div class="call info">
+    <div class="h">The load-bearing design decision</div>
+    <p><code>propose()</code> is cheap and produces only a <em>specification</em>.
+    <code>apply()</code> is expensive and realizes it — training a LoRA, fitting a
+    steering vector. This split is the entire efficiency argument: the critic
+    ranks specifications, so it never pays for the candidates it rejects.</p>
+  </div>
+</section>
+
+<section>
+  <div class="snum">01 — PIPELINE</div>
+  <h2>System design</h2>
+  <p class="lede">Six stages. The first three are complete and verified; stage 04
+  is running now.</p>
+
+  <div class="flow">
+    <div class="stage done"><div class="n">01 ✓</div><div class="t">interventions/</div>
+      <div class="d">Unified API: propose, apply, revert, cost, serialize. Three implementations.</div></div>
+    <div class="stage done"><div class="n">02 ✓</div><div class="t">evaluation/</div>
+      <div class="d">Task score, retention score, failure feedback, cost model.</div></div>
+    <div class="stage done"><div class="n">03 ✓</div><div class="t">candidates/</div>
+      <div class="d">One generator per type, hyperparameters sampled per state.</div></div>
+    <div class="stage now"><div class="n">04 ▶</div><div class="t">counterfactuals/</div>
+      <div class="d">Exhaustive runner + oracle + append-only dataset. <b>Running.</b></div></div>
+    <div class="stage"><div class="n">05</div><div class="t">critic/</div>
+      <div class="d">Features, regression + pairwise ranking, uncertainty, selector.</div></div>
+    <div class="stage"><div class="n">06</div><div class="t">experiments/</div>
+      <div class="d">7 routing policies under matched budgets, then figures.</div></div>
+  </div>
+
+  <div class="cols two">
+    <div>
+      <table>
+        <caption>The measurement loop, per state</caption>
+        <tr><td class="k">1</td><td>capture_state()</td></tr>
+        <tr><td class="k">2</td><td>evaluate baseline (task + retention)</td></tr>
+        <tr><td class="k">3</td><td>collect failure batch (train split)</td></tr>
+        <tr><td class="k">4</td><td>propose 3 × 3 candidates (cheap)</td></tr>
+        <tr><td class="k">5</td><td>for each: restore → apply → evaluate → record</td></tr>
+        <tr><td class="k">6</td><td>restore_state() and assert no leaks</td></tr>
+      </table>
+    </div>
+    <div>
+      <table>
+        <caption>Recorded per (state, candidate)</caption>
+        <tr><td class="k">improvement</td><td>Δ task accuracy</td></tr>
+        <tr><td class="k">retention_change</td><td>Δ retention accuracy</td></tr>
+        <tr><td class="k">utility</td><td>Δtask + min(0, Δretention)</td></tr>
+        <tr><td class="k">cost</td><td>normalized spend</td></tr>
+        <tr><td class="k">apply / eval sec</td><td>wall clock, separated</td></tr>
+        <tr><td class="k">logprob, margin</td><td>low-variance auxiliaries</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="call good">
+    <div class="h">Verified — state restoration is exact</div>
+    <p>Reverting any intervention restores logits <em>bitwise</em>
+    (max |Δ| = 0.00e+00), including after stacking all three types and restoring.
+    LoRA is a hand-rolled module swap holding a reference to the original
+    <code>nn.Linear</code> — nothing is ever merged into base weights, so repeated
+    apply/revert cannot drift.</p>
+    <p>This gate caught a real bug: candidates applied via <code>candidate.apply()</code>
+    instead of the tracked stack leaked steering hooks into the next trial, which
+    would have silently contaminated every downstream measurement.</p>
+  </div>
+</section>
+
+<section>
+  <div class="snum">02 — INTERVENTIONS</div>
+  <h2>Three levers, calibrated</h2>
+  <p class="lede">Each type was swept independently to find where it helps and
+  where it hurts. The candidate grids deliberately span both regimes — avoiding a
+  damaging update is half of what routing is for.</p>
+
+  <table>
+    <caption>Calibration sweep · 80 held-out examples · baseline 0.425</caption>
+    <thead><tr><th>Type</th><th>Mechanism</th><th>Best config</th><th>Task Δ</th><th>Failure mode</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="k">prompt</td>
+        <td>instruction rewrite</td>
+        <td class="v">disambiguation hint</td>
+        <td class="num-pos">+0.150</td>
+        <td>generic hints only +0.050</td>
+      </tr>
+      <tr>
+        <td class="k">activation</td>
+        <td>contrastive steering vector, forward hook</td>
+        <td class="v">layer 14, α=1.0</td>
+        <td class="num-pos">+0.150</td>
+        <td>α≥2 collapses <span class="num-neg">−0.375</span>; layer 30 inert</td>
+      </tr>
+      <tr>
+        <td class="k">lora</td>
+        <td>temporary rank-r adapter on failure batch</td>
+        <td class="v">lr 3e-4, 16 steps</td>
+        <td class="num-pos">+0.087</td>
+        <td>loss→0.000 overfits <span class="num-neg">−0.112</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="call risk">
+    <div class="h">Two magnitude bugs this sweep caught</div>
+    <p><b>Steering was a no-op.</b> The difference-in-means vector was being
+    unit-normalized before scaling. Residual-stream norms at these layers are
+    60–155, so a unit vector contributed essentially nothing. Keeping the raw
+    scale turned a flat 0.000 into +0.150.</p>
+    <p><b>LoRA was undertrained, then overtrained.</b> The initial grid capped at
+    16 steps × 1e-4 and moved nothing. Widening it exposed a sharp optimum — and
+    the fact that driving training loss to zero on a 12-example failure batch
+    actively destroys held-out accuracy.</p>
+  </div>
+
+  <div class="cols two">
+    <div>
+      <table>
+        <caption>Candidate search grids</caption>
+        <tr><td class="k">prompt source</td><td>llm_rewrite · confusion_edit · strategy_hint</td></tr>
+        <tr><td class="k">act. layer</td><td>10 · 14 · 18 · 22 · 26 · 30</td></tr>
+        <tr><td class="k">act. strength</td><td>0.25 · 0.5 · 0.75 · 1.0 · 1.5 · 2.0</td></tr>
+        <tr><td class="k">lora rank</td><td>4 · 8</td></tr>
+        <tr><td class="k">lora lr</td><td>1e-4 · 3e-4 · 1e-3 · 3e-3</td></tr>
+        <tr><td class="k">lora steps</td><td>6 · 12 · 20</td></tr>
+        <tr><td class="k">lora depth</td><td>top 4 · 8 · 12 layers</td></tr>
+        <tr><td class="k">lora targets</td><td>q,v · q,k,v</td></tr>
+      </table>
+    </div>
+    <div>
+      <table>
+        <caption>Cost model (normalized units)</caption>
+        <tr><td class="k">COST_PROMPT</td><td class="v">1.0</td></tr>
+        <tr><td class="k">COST_ACTIVATION</td><td class="v">2.0</td></tr>
+        <tr><td class="k">COST_LORA</td><td class="v">8.0 × steps/12 × (1+r/32)</td></tr>
+        <tr><td class="k">ROUTING_BUDGET</td><td class="v">12.0 / round</td></tr>
+        <tr><td class="k">RETENTION_PENALTY</td><td class="v">1.0</td></tr>
+      </table>
+      <p class="note" style="margin-top:16px">Cost tracks real wall clock: a LoRA
+      candidate costs ~8× a prompt edit because it must be trained before it can
+      be judged. Exhaustively executing all nine candidates costs ~35 units; the
+      critic commits to one.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="snum">03 — CONFIGURATION</div>
+  <h2>Settings and why they are these numbers</h2>
+
+  <div class="cols two">
+    <div>
+      <table>
+        <caption>Model &amp; runtime</caption>
+        <tr><td class="k">MODEL_NAME</td><td class="v">Qwen2.5-3B-Instruct</td></tr>
+        <tr><td class="k">DEVICE</td><td class="v">mps</td></tr>
+        <tr><td class="k">DTYPE</td><td class="v">bfloat16</td></tr>
+        <tr><td class="k">ATTN_IMPL</td><td class="v">eager</td></tr>
+        <tr><td class="k">SEED</td><td class="v">0</td></tr>
+        <tr><td class="k">FORWARD_BATCH</td><td class="v">16</td></tr>
+      </table>
+      <table>
+        <caption>Experiment scale</caption>
+        <tr><td class="k">N_COLLECT_STATES</td><td class="v">30</td></tr>
+        <tr><td class="k">CANDIDATES_PER_TYPE</td><td class="v">3 → 9 / state</td></tr>
+        <tr><td class="k">N_ROUTING_EPISODES</td><td class="v">4</td></tr>
+        <tr><td class="k">N_ROUTING_ROUNDS</td><td class="v">3</td></tr>
+      </table>
+    </div>
+    <div>
+      <table>
+        <caption>Evaluation batches</caption>
+        <tr><td class="k">TASK_EVAL_N</td><td class="v">40</td></tr>
+        <tr><td class="k">RETENTION_EVAL_N</td><td class="v">24</td></tr>
+        <tr><td class="k">FAILURE_POOL_N</td><td class="v">32</td></tr>
+        <tr><td class="k">FAILURE_BATCH_N</td><td class="v">12</td></tr>
+        <tr><td class="k">final eval (routing)</td><td class="v">80 + 80</td></tr>
+      </table>
+      <table>
+        <caption>Tasks</caption>
+        <tr><td class="k">target</td><td>dair-ai/emotion · 6-way</td></tr>
+        <tr><td class="k">retention</td><td>ag_news · 4-way</td></tr>
+        <tr><td class="k">base accuracy</td><td class="v">0.605 <span class="note">(chance .167)</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="call info">
+    <div class="h">Why evaluation is one forward pass</div>
+    <p>Scores come from the logits of each label word's first token at the final
+    position — never from generation. Label first-tokens are asserted
+    collision-free at startup. A full evaluation is therefore 64 forward passes
+    and ~15 seconds, which is what makes several hundred counterfactual
+    measurements feasible on a laptop GPU.</p>
+    <p>Prompt format was chosen by measurement, not taste: raw completion beat a
+    chat template with a system message on <em>all three</em> axes — accuracy
+    (0.605 vs 0.595), sequence length (68 vs 94 tokens), and calibration
+    (gold log-prob −2.79 vs −3.66).</p>
+  </div>
+
+  <div class="call good">
+    <div class="h">Split hygiene</div>
+    <p>Failure batches that drive candidate generation are drawn from the
+    <b>train</b> split; every reported score comes from <b>validation</b>.
+    Routing episodes use seeds disjoint from the critic's training states, and end
+    on a larger fixed evaluation batch that no policy optimizes against.</p>
+  </div>
+</section>
+
+<section>
+  <div class="snum">04 — CRITIC</div>
+  <h2>What the critic sees, and what it must never see</h2>
+  <p class="lede">36 features per (state, candidate) pair. The binding constraint
+  is that every one of them must be computable <em>before</em> the candidate is
+  executed.</p>
+
+  <div class="cols two">
+    <div>
+      <table>
+        <caption>State features (15)</caption>
+        <tr><td class="k">baseline</td><td>task acc, retention acc, gold logprob, margin, entropy</td></tr>
+        <tr><td class="k">history</td><td>depth, depth per type (prompt/act/lora)</td></tr>
+        <tr><td class="k">prompt</td><td>instruction length</td></tr>
+        <tr><td class="k">failures</td><td>rate, count, entropy, confusion concentration</td></tr>
+      </table>
+    </div>
+    <div>
+      <table>
+        <caption>Candidate features (18) + interactions (4)</caption>
+        <tr><td class="k">type</td><td>one-hot, cost</td></tr>
+        <tr><td class="k">prompt</td><td>chars added, length, source one-hot</td></tr>
+        <tr><td class="k">activation</td><td>layer fraction, strength, log strength</td></tr>
+        <tr><td class="k">lora</td><td>rank, log lr, steps, depth, n proj, n failures</td></tr>
+        <tr><td class="k">interactions</td><td>lora×(1−acc), act×depth, prompt×confusion, cost×depth</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="call risk">
+    <div class="h">Leak guard</div>
+    <p>Fitted steering-vector norms, final LoRA training loss, and every
+    <code>post_*</code> measurement are recorded in the dataset for analysis but
+    are on an explicit <code>FORBIDDEN</code> list and cannot reach the model.
+    Using them would leak the very outcome the critic is meant to predict, and
+    would make every headline number meaningless.</p>
+  </div>
+
+  <p style="margin-top:30px">Two heads, per the project plan. <b>Regression</b>
+  (gradient boosting) gives a calibrated absolute utility — required for budget
+  arithmetic and for the policy to decline when nothing is worth applying.
+  <b>Pairwise ranking</b> (logistic on within-state feature differences) gives the
+  ordering that selection actually consumes, invariant to per-state shifts. A
+  third head predicts squared residual, for uncertainty.</p>
+
+  <table>
+    <caption>Held-out protocol · GroupKFold by state</caption>
+    <thead><tr><th>Metric</th><th>Meaning</th><th>Must beat</th></tr></thead>
+    <tbody>
+      <tr><td class="k">pairwise acc</td><td>correct ordering within a state</td><td>static type prior</td></tr>
+      <tr><td class="k">top-1 regret</td><td>utility lost vs oracle's pick</td><td>type prior, random</td></tr>
+      <tr><td class="k">Spearman</td><td>rank correlation with measured utility</td><td>0</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <div class="snum">05 — ROUTING</div>
+  <h2>Seven policies, matched budgets</h2>
+  <p class="lede">All policies start each episode from the same state, see the
+  same candidate set, and are scored on the same held-out batch. Only the routing
+  decision differs.</p>
+
+  <table>
+    <thead><tr><th>Policy</th><th>Decision rule</th><th>Executes</th></tr></thead>
+    <tbody>
+      <tr><td class="k">prompt_only</td><td>random prompt candidate</td><td>1</td></tr>
+      <tr><td class="k">activation_only</td><td>random steering candidate</td><td>1</td></tr>
+      <tr><td class="k">lora_only</td><td>random adapter candidate</td><td>1</td></tr>
+      <tr><td class="k">random</td><td>uniform over affordable</td><td>1</td></tr>
+      <tr><td class="k">heuristic</td><td>best type by training mean, cheapest within it</td><td>1</td></tr>
+      <tr><td class="k">critic</td><td>argmax predicted utility − λ·cost; may decline</td><td>1</td></tr>
+      <tr><td class="k">oracle</td><td>measured best under budget</td><td class="num-neg">9</td></tr>
+    </tbody>
+  </table>
+
+  <div class="call info">
+    <div class="h">Why the heuristic is a static type prior</div>
+    <p>It always picks the intervention type with the best average training
+    utility. That captures everything a fixed preference order can express — so
+    any margin the critic gains over it is attributable specifically to
+    <em>state-dependent</em> routing, which is the actual claim.</p>
+    <p>One asymmetry is disclosed rather than hidden: only the critic and the
+    oracle can decline to act, because only they have a utility estimate. Type
+    usage per policy is reported so this is visible in the results.</p>
+  </div>
+</section>
+
+<section>
+  <div class="snum">06 — STATUS</div>
+  <h2>Where the run is</h2>
+
+  <table>
+    <thead><tr><th>Stage</th><th>State</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td class="k">environment</td><td class="num-pos">done</td><td>venv py3.11, torch 2.5.1, MPS; model cached</td></tr>
+      <tr><td class="k">apply/revert gate</td><td class="num-pos">passed</td><td>all checks, max |Δlogits| = 0.00e+00</td></tr>
+      <tr><td class="k">milestone 1</td><td class="num-pos">passed</td><td>3 types measured, exact restore after sweep</td></tr>
+      <tr><td class="k">calibration</td><td class="num-pos">done</td><td>all three types reach +0.087…+0.150</td></tr>
+      <tr><td class="k">critic pipeline</td><td class="num-pos">smoke-tested</td><td>recovers planted structure on synthetic data</td></tr>
+      <tr><td class="k">collection</td><td class="num-neg">running</td><td>30 states × 9 candidates = 270 records</td></tr>
+      <tr><td class="k">critic training</td><td>queued</td><td>—</td></tr>
+      <tr><td class="k">routing</td><td>queued</td><td>4 episodes × 3 rounds × 7 policies</td></tr>
+      <tr><td class="k">figures</td><td>queued</td><td>9-panel results</td></tr>
+    </tbody>
+  </table>
+
+  <div class="call risk">
+    <div class="h">Known risks to the result</div>
+    <p><b>Target noise.</b> Task batches are 40 examples, so one flipped example
+    is 0.025 utility. Evaluation is paired (same examples before and after), which
+    cuts variance on the difference substantially, but small true effects will
+    still be hard to rank and this caps achievable Spearman.</p>
+    <p><b>Scale.</b> 30 states × 9 candidates is enough for a 36-feature model
+    with grouped CV, but it is a baseline, not a converged result. Interaction
+    prediction and uncertainty (step 8 of the plan) need more states.</p>
+    <p><b>Single task pair.</b> Heterogeneity is demonstrated on emotion →
+    ag_news. Whether the learned routing policy transfers across task families is
+    out of scope here.</p>
+  </div>
+</section>
+
+<div class="foot">
+  ~/mechanistic-routing · logs/collect.log · results/results.png<br>
+  Note: the linked ChatGPT project context returned HTTP 403 (private), so this
+  dossier is derived from the task specification and the measured behaviour of the
+  implementation.
+</div>
+
+</div>
+</body>
+</html>
